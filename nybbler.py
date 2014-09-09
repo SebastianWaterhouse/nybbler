@@ -9,13 +9,14 @@ A common series is inculded, en_US_1
 """ 
 
 class InvalidSeriesException(Exception):
-    pass
+	__doc__="""This error signifies that an issue was found while validating a series that had already been loaded"""
 class InflateFailureException(Exception):
-    pass
+	__doc__="""This error signifies that an error occoured while a file was being inflated"""
 class SeriesLoadException(Exception):
-	pass
+	__doc__="""This error signifies that an Error occoured while loading a series from file, but not that the series is inherently invalid."""
 
 def validate_series(series):
+	"""Validate a series, making sure it is functional"""
 	already=[] #Set up list to aggregate indexed characters
 	for row in series:
 		for char in row:
@@ -35,6 +36,7 @@ def validate_series(series):
 	return True
 
 def load_series(filename):
+	"""Load a series and validate it, either by filename or module name"""
 	try:
 		module=importlib.import_module(filename)
 	except BaseException as e:
