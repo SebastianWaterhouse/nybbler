@@ -43,12 +43,15 @@ def load_series(filename):
 	return module.series
 
 def raw_bin(byte):
+	"""Convert and integer to binary, and strip off the 0b prefix"""
 	return bin(byte).replace("0b","")
 
 def expand(a, l):
+	"""Expand a big-endian binary string (a) to l places. Nothing happens if a is longer than l."""
 	return ("0"*(l-len(a)))+a
 
 def split_byte(byte):
+	"""Split a interger into two 4-bit nybbles"""
 	output=[]
 	byte_bin=expand(raw_bin(byte),8)
 	output.append(int(byte_bin[:4],2))
@@ -69,6 +72,7 @@ def _compress_character(series, char):
 	return ascii_escape
 
 def compress_characters(series, chars):
+	"""Compress a string and return a list of nybble-ints"""
 	ret=[]
 	for char in chars:
 		ret.extend(_compress_character(series, char))
@@ -80,6 +84,7 @@ def _pack_two_nybbles(nybbles):
 	return chr(int(nybble_1+nybble_2,2))
 
 def pack_nybbles(nybbles, null_nybble):
+	"""Pack a string of nybble-ints into characters"""
 	last_nybble=-1
 	packed=""
 	for nybble in nybbles:
@@ -111,6 +116,7 @@ def _inflate_character(series, row, nybble):
 		raise InflateFailureException("Invaid Nybble while decompressing")
 
 def inflate_characters(series, nybbles):
+	"""Convert a list of nybble-ints into characters"""
 	ret=""
 	escape=0
 	ascii_build=""
@@ -140,6 +146,7 @@ def _unpack_character(char):
 	return nybbles
 
 def unpack_characters(chars):
+	"""Convert a string into a list of nybble-ints"""
 	nybbles=[]
 	for char in chars:
 		nybbles.extend(_unpack_character(char))
