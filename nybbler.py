@@ -1,8 +1,4 @@
-import string
-
-en_US_1=[['e','t','a','o','i','n','s','h','r','d','l','c',' ','^^ascii','^^>1','^^>2'],
-	['?','u','m','w','f','g','y','p','b','v','k','j','x','q','z','.'],
-	['1','2','3','4','5','6','7','8','9','0','!',',',"'",'"','-','\n']]
+import string, importlib
 
 """
 Call compress_string or compress_file to compress.
@@ -10,12 +6,14 @@ Call inflate_string or inflate_file to decompress.
 A common series is inculded, en_US_1
 
 ~Louis Goessling
-"""
+""" 
 
 class InvalidSeriesException(Exception):
     pass
-class ImportFailureException(Exception):
+class InflateFailureException(Exception):
     pass
+class SeriesLoadException(Exception):
+	pass
 
 def validate_series(series):
 	already=[] #Set up list to aggregate indexed characters
@@ -35,6 +33,14 @@ def validate_series(series):
 		if not len(row)==16:
 			raise InvalidSeriesException("Row "+str(series.index(row))+" too long")
 	return True
+
+def load_series(filename):
+	try:
+		module=importlib.import_module(filename)
+	except BaseException as e:
+		raise SeriesLoadException(e)
+	validate_series(module.series)
+	return module.series
 
 def raw_bin(byte):
 	return bin(byte).replace("0b","")
@@ -102,7 +108,7 @@ def _inflate_character(series, row, nybble):
 	try:
 		return series[row][nybble]
 	except IndexError:
-		raise ImportFailureException("Invaid Nybble while decompressing")
+		raise InflateFailureException("Invaid Nybble while decompressing")
 
 def inflate_characters(series, nybbles):
 	ret=""
