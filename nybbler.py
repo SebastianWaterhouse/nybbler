@@ -38,11 +38,11 @@ def validate_series(series):
 def load_series(filename):
 	"""Load a series and validate it, either by filename or module name"""
 	try:
-		module=importlib.import_module(filename)
+		module=eval(open(filename, 'r').readlines()[0])
 	except BaseException as e:
 		raise SeriesLoadException(e)
-	validate_series(module.series)
-	return module.series
+	validate_series(module)
+	return module
 
 def raw_bin(byte):
 	"""Convert and integer to binary, and strip off the 0b prefix"""
