@@ -44,7 +44,7 @@ if args.C or args.D:
 else:
 	p_std("Processing...")
 	if args.input!=None:
-		p_std("You appear to have entered the series file in the input argument. In the future enter it as the -s argument. Continuing assuming input contains the series file you want vaildated.")
+		p_std("\nYou appear to have entered the series file in the input argument. In the future enter it as the -s argument. Continuing assuming input contains the series file you want vaildated.\n")
 		args.s=args.input
 	try:
 		p_ver("Calling...")
