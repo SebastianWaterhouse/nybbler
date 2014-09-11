@@ -3,7 +3,7 @@ import nybbler
 
 def p_std(string):
 	if not args.q:
-		print string
+		print (string)
 
 def p_ver(string):
 	if args.v:
