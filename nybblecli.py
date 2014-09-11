@@ -43,11 +43,14 @@ if args.C or args.D:
 		f_out.write(result)
 else:
 	p_std("Processing...")
+	if args.input!=None:
+		p_std("You appear to have entered the series file in the input argument. In the future enter it as the -s argument. Continuing assuming input contains the series file you want vaildated.")
+		args.s=args.input
 	try:
 		p_ver("Calling...")
 		nybbler.load_series(args.s)
 		p_std("Series is good")
-	except (nybbler.InvalidSeriesException, nybbler.SeriesLoadException) as e:
+	except nybbler.SeriesException as e:
 		p_std("Error, dump:")
 		p_std(str(e))
 		p_ver("Raw exception:")

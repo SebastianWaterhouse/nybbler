@@ -8,11 +8,15 @@ A common series is inculded, en_US_1
 ~Louis Goessling
 """ 
 
-class InvalidSeriesException(Exception):
+class NybblerException(Exception):
+	__doc__="""Generic Nybbler Exception"""
+class SeriesException(NybblerException):
+	__doc__="""Generic error class for series failures"""
+class InvalidSeriesException(SeriesException):
 	__doc__="""This error signifies that an issue was found while validating a series that had already been loaded"""
-class InflateFailureException(Exception):
+class InflateFailureException(NybblerException):
 	__doc__="""This error signifies that an error occoured while a file was being inflated"""
-class SeriesLoadException(Exception):
+class SeriesLoadException(SeriesException):
 	__doc__="""This error signifies that an Error occoured while loading a series from file, but not that the series is inherently invalid."""
 
 def validate_series(series):
