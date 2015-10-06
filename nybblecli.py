@@ -31,7 +31,7 @@ if args.C or args.D:
 	contents=""
 	with open(args.input, 'rb') as f_in:
 		for line in f_in:
-			contents+=line
+			contents+=line.decode("utf-8")
 	if args.C:
 		p_std("Compressing...")
 		result=nybbler.compress_string(series, contents)
@@ -40,7 +40,7 @@ if args.C or args.D:
 		result=nybbler.inflate_string(series, contents)
 	p_std("Writing...")
 	with open(args.output, 'wb') as f_out:
-		f_out.write(result)
+		f_out.write(bytes(result, encoding="utf-8"))
 else:
 	p_std("Processing...")
 	if args.input!=None:
